@@ -1,0 +1,9 @@
+[deps]
+Documenter = "e30172f5-a6a5-5a46-863b-614d45cd2de4"
+ForwardDiff = "f6369f11-7733-5829-9624-2563aa707210"
+JLD2 = "033835bb-8acc-5ee8-8aae-3f567f8a3819"
+Optimization = "7f7a1694-90dd-40f0-9382-eb1efda571ba"
+OptimizationCallbacks = "65fa8838-c146-46ed-aad7-5f6b0eb2af66"
+
+[compat]
+Documenter = "1"
