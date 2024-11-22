@@ -19,13 +19,13 @@ julia&gt; prob = OptimizationProblem(optf, [0., 0.], [1., 100.]);
 julia&gt; callback = Callback(IterationTrigger(5), LogProgress());
 
 julia&gt; sol = solve(prob, Optimization.LBFGS(); callback)
- eval   | current     | best
-___________________________________
-      5 |    0.460215 |    0.460215
-     10 |    0.162607 |    0.162607
-     15 |   0.0257404 |   0.0257404
-     20 | 0.000911646 | 0.000911646
-     25 | 1.04339e-13 | 1.04339e-13
+ eval   | current     | lowest      | highest
+_________________________________________________
+      5 |    0.460215 |    0.460215 |    0.460215
+     10 |    0.162607 |    0.162607 |    0.460215
+     15 |   0.0257404 |   0.0257404 |    0.460215
+     20 | 0.000911646 | 0.000911646 |    0.460215
+     25 | 1.04339e-13 | 1.04339e-13 |    0.460215
 retcode: Success
 u: 2-element Vector{Float64}:
  0.9999997057368228
@@ -113,14 +113,14 @@ julia&gt; callback = Callback(IterationTrigger(5), LogProgress());
 julia&gt; for _ in 1:6
            callback(Optimization.OptimizationState(), 17.); # arbitrary calls to callback
        end
- eval   | current     | best
-___________________________________
-      5 |          17 |          17
+ eval   | current     | lowest      | highest
+_________________________________________________
+      5 |          17 |          17 |          17
 
 julia&gt; callback.t
 6
 
-julia&gt; callback.func.best
+julia&gt; callback.func.lowest
 17.0
 
 julia&gt; OptimizationCallbacks.reset!(callback);
@@ -128,6 +128,6 @@ julia&gt; OptimizationCallbacks.reset!(callback);
 julia&gt; callback.t
 0
 
-julia&gt; callback.func.best
+julia&gt; callback.func.lowest
 Inf
-</code></pre></div></section></article><article class="docstring"><header><a class="docstring-article-toggle-button fa-solid fa-chevron-down" href="javascript:;" title="Collapse docstring"></a><a class="docstring-binding" id="OptimizationCallbacks.trigger!-Tuple{Any, Any}" href="#OptimizationCallbacks.trigger!-Tuple{Any, Any}"><code>OptimizationCallbacks.trigger!</code></a> — <span class="docstring-category">Method</span><span class="is-flex-grow-1 docstring-article-toggle-button" title="Collapse docstring"></span></header><section><div><pre><code class="language-julia hljs">trigger!(callback, event)</code></pre><p>Trigger <a href="#OptimizationCallbacks.EventTrigger"><code>EventTrigger</code></a> with <code>event</code>. For example see <a href="#OptimizationCallbacks.EventTrigger"><code>EventTrigger</code></a> or <a href="#OptimizationCallbacks.CheckPointSaver"><code>CheckPointSaver</code></a>.</p></div></section></article></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.8.0 on <span class="colophon-date" title="Wednesday 20 November 2024 14:34">Wednesday 20 November 2024</span>. Using Julia version 1.11.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
+</code></pre></div></section></article><article class="docstring"><header><a class="docstring-article-toggle-button fa-solid fa-chevron-down" href="javascript:;" title="Collapse docstring"></a><a class="docstring-binding" id="OptimizationCallbacks.trigger!-Tuple{Any, Any}" href="#OptimizationCallbacks.trigger!-Tuple{Any, Any}"><code>OptimizationCallbacks.trigger!</code></a> — <span class="docstring-category">Method</span><span class="is-flex-grow-1 docstring-article-toggle-button" title="Collapse docstring"></span></header><section><div><pre><code class="language-julia hljs">trigger!(callback, event)</code></pre><p>Trigger <a href="#OptimizationCallbacks.EventTrigger"><code>EventTrigger</code></a> with <code>event</code>. For example see <a href="#OptimizationCallbacks.EventTrigger"><code>EventTrigger</code></a> or <a href="#OptimizationCallbacks.CheckPointSaver"><code>CheckPointSaver</code></a>.</p></div></section></article></article><nav class="docs-footer"><p class="footer-message">Powered by <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> and the <a href="https://julialang.org/">Julia Programming Language</a>.</p></nav></div><div class="modal" id="documenter-settings"><div class="modal-background"></div><div class="modal-card"><header class="modal-card-head"><p class="modal-card-title">Settings</p><button class="delete"></button></header><section class="modal-card-body"><p><label class="label">Theme</label><div class="select"><select id="documenter-themepicker"><option value="auto">Automatic (OS)</option><option value="documenter-light">documenter-light</option><option value="documenter-dark">documenter-dark</option><option value="catppuccin-latte">catppuccin-latte</option><option value="catppuccin-frappe">catppuccin-frappe</option><option value="catppuccin-macchiato">catppuccin-macchiato</option><option value="catppuccin-mocha">catppuccin-mocha</option></select></div></p><hr/><p>This document was generated with <a href="https://github.com/JuliaDocs/Documenter.jl">Documenter.jl</a> version 1.8.0 on <span class="colophon-date" title="Friday 22 November 2024 14:01">Friday 22 November 2024</span>. Using Julia version 1.11.1.</p></section><footer class="modal-card-foot"></footer></div></div></div></body></html>
