@@ -40,13 +40,13 @@ julia> prob = OptimizationProblem(optf, [0., 0.], [1., 100.]);
 julia> callback = Callback(IterationTrigger(5), LogProgress());
 
 julia> sol = solve(prob, Optimization.LBFGS(); callback)
- eval   | current     | best
-___________________________________
-      5 |    0.460215 |    0.460215
-     10 |    0.162607 |    0.162607
-     15 |   0.0257404 |   0.0257404
-     20 | 0.000911646 | 0.000911646
-     25 | 1.04339e-13 | 1.04339e-13
+ eval   | current     | lowest      | highest
+_________________________________________________
+      5 |    0.460215 |    0.460215 |    0.460215
+     10 |    0.162607 |    0.162607 |    0.460215
+     15 |   0.0257404 |   0.0257404 |    0.460215
+     20 | 0.000911646 | 0.000911646 |    0.460215
+     25 | 1.04339e-13 | 1.04339e-13 |    0.460215
 retcode: Success
 u: 2-element Vector{Float64}:
  0.9999997057368228
@@ -96,14 +96,14 @@ julia> callback = Callback(IterationTrigger(5), LogProgress());
 julia> for _ in 1:6
            callback(Optimization.OptimizationState(), 17.); # arbitrary calls to callback
        end
- eval   | current     | best
-___________________________________
-      5 |          17 |          17
+ eval   | current     | lowest      | highest
+_________________________________________________
+      5 |          17 |          17 |          17
 
 julia> callback.t
 6
 
-julia> callback.func.best
+julia> callback.func.lowest
 17.0
 
 julia> OptimizationCallbacks.reset!(callback);
@@ -111,7 +111,7 @@ julia> OptimizationCallbacks.reset!(callback);
 julia> callback.t
 0
 
-julia> callback.func.best
+julia> callback.func.lowest
 Inf
 
 ```
@@ -323,24 +323,29 @@ See [`Callback`](@ref) for an example.
 """
 mutable struct LogProgress
     i::Int
-    best::Float64
+    lowest::Float64
+    highest::Float64
 end
-LogProgress() = LogProgress(0, Inf)
+LogProgress() = LogProgress(0, Inf, -Inf)
 function reset!(cb::LogProgress)
-    cb.best = Inf
+    cb.lowest = Inf
+    cb.highest = -Inf
     cb.i = 0
     cb
 end
 function (cb::LogProgress)(state, value, t, _)
     if cb.i % 50 == 0
-        println(" eval   | current     | best")
-        println("_"^35)
+        println(" eval   | current     | lowest      | highest     ")
+        println("_"^49)
     end
     cb.i += 1
-    if value ≤ cb.best
-        cb.best = value
+    if value ≤ cb.lowest
+        cb.lowest = value
     end
-    @printf "%7i | %11.6g | %11.6g\n" t value cb.best
+    if value ≥ cb.highest
+        cb.highest = value
+    end
+    @printf "%7i | %11.6g | %11.6g | %11.6g\n" t value cb.lowest cb.highest
 end
 
 end # module
